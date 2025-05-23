@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',
     'task_api',
 ]
 
@@ -126,6 +126,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000", # Servidor de React
-    "http://127.0.0.1:3000",
+    "http://localhost:5173", # La URL de tu servidor de desarrollo React/Vite
+    "http://127.0.0.1:5173", # A veces localhost se resuelve a 127.0.0.1
+    # Si tienes más frontends o si tu frontend se despliega en otro dominio, añádelos aquí.
 ]
