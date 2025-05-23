@@ -16,8 +16,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt.views import (
+        TokenObtainPairView,
+        TokenRefreshView,
+    )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('task_api.urls')), # Incluye las URLs de tu app
+    # URLs de la app de prueba
+    path('api/task/', include('task_api.urls')), # Esta línea refleje la app de prueba
+
+    # URLs para la autenticación JWT (obtener y refrescar tokens)
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # Incluye las URLs de tus nuevas aplicaciones de CryptoMinePro
+    path('api/users/', include('users.urls')),
+    path('api/tools/', include('cryptotools.urls')),
+    path('api/learn/', include('cryptolearn.urls')),
+    path('api/blog/', include('blogmine.urls')),
 ]

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os # Asegúrate de que esta línea esté al principio si no lo está
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,15 +32,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'corsheaders',
+    'corsheaders',                     # Para manejar CORS con el frontend de React
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework_simplejwt',
+    # Tus aplicaciones de terceros
+    'rest_framework',                  # Django REST Framework
+    'rest_framework_simplejwt',        # Para autenticación JWT
+    # Tus aplicaciones del proyecto
     'task_api',
     'users',
     'cryptotools',
@@ -50,7 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # CRÍTICO: Debe ir ANTES de CommonMiddleware
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -58,7 +61,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'CMPBackend.urls'
+ROOT_URLCONF = 'CryptoMineProBackend.urls' # Asegúrate que este sea el nombre de tu proyecto interno
 
 TEMPLATES = [
     {
@@ -75,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'CMPBackend.wsgi.application'
+WSGI_APPLICATION = 'CryptoMineProBackend.wsgi.application' # Asegúrate que este sea el nombre de tu proyecto interno
 
 
 # Database
@@ -130,8 +133,32 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# --- INICIO DE NUEVAS CONFIGURACIONES DE DRF y CORS ---
+# Configuración de Django REST Framework (DRF)
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication', # Usaremos JWT para autenticación
+        'rest_framework.authentication.SessionAuthentication',        # Para el panel de administración
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly', # Por defecto, requiere autenticación para escribir, permite lectura pública
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10 # Define el tamaño de página para paginación por defecto
+}
+
+# Configuración de CORS (Cross-Origin Resource Sharing)
+# Ya tenías CORS_ALLOWED_ORIGINS, así que lo mantendremos.
+# Si prefieres permitir *todos* los orígenes durante el desarrollo para simplificar,
+# puedes usar CORS_ALLOW_ALL_ORIGINS = True en lugar de CORS_ALLOWED_ORIGINS,
+# pero no ambas al mismo tiempo.
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173", # La URL de tu servidor de desarrollo React/Vite
     "http://127.0.0.1:5173", # A veces localhost se resuelve a 127.0.0.1
     # Si tienes más frontends o si tu frontend se despliega en otro dominio, añádelos aquí.
 ]
+# --- FIN DE NUEVAS CONFIGURACIONES DE DRF y CORS ---
+
+# Configuración del modelo de usuario personalizado
+# Esto le dice a Django que use tu modelo CustomUser de la aplicación 'users'
+AUTH_USER_MODEL = 'users.CustomUser'
