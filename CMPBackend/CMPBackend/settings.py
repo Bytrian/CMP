@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'CryptoMineProBackend.urls' # Asegúrate que este sea el nombre de tu proyecto interno
+ROOT_URLCONF = 'CMPBackend.urls' # Asegúrate que este sea el nombre de tu proyecto interno
 
 TEMPLATES = [
     {
@@ -78,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'CryptoMineProBackend.wsgi.application' # Asegúrate que este sea el nombre de tu proyecto interno
+WSGI_APPLICATION = 'CMPBackend.wsgi.application' # Asegúrate que este sea el nombre de tu proyecto interno
 
 
 # Database
