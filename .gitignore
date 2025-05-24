@@ -1,0 +1,22 @@
+# Archivos de Python compilados
+__pycache__/
+*.pyc
+
+# Entorno virtual
+venv/
+
+# Base de datos SQLite (si la usas para desarrollo)
+db.sqlite3
+
+# Archivos específicos de VS Code
+.vscode/
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de Node.js (para tu frontend)
+node_modules/
+.env.local
+build/
+dist/
